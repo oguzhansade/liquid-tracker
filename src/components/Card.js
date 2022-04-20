@@ -9,21 +9,8 @@ import Loading from './Loading';
 
 function Card({city,district},props) {
 
-  
-  // console.log(avgGasolinePrice,'Ortalama Benzin Ücreti')
-  // const handleAvgGasolinePrices = (price) => {  
-  //   avgGasolinePrice.push(price)
-  //   setAvgGasolinePrice([...avgGasolinePrice]);
-
-  //   console.log(avgGasolinePrice,'Ortalama Yakıt')
-  // }
-
-
   const [isLoading, setIsLoading] = useState(false)
   const [prices, setPrices] = useState([])
-  const [avgGasolinePrice,setAvgGasolinePrice] = useState([]);
-
-  
 
 const fetchData = () => {
 
@@ -44,10 +31,7 @@ const fetchData = () => {
         const allDataLpgs = allData[2].data.result
         setPrices(formatGasoline(allDataGasolines,allDataDiesels,allDataLpgs))
     })
-  ).then (() => {
-    let OrtalamaBenzin = getAverage(prices.map(x => x.benzin))
-  })
-  .catch(function (error) {
+  ).catch(function (error) {
     if (error.response) {
       console.log(error.response.status,'Hata Kodu');
     } if (error.response.status === 429) {
@@ -72,10 +56,7 @@ useEffect (() => {
       <div className='cart'>
         <div className='cart-header px-3'>
           <div className='cart-title '><span style={{textTransform:'capitalize'}}>{city}</span> / <span style={{textTransform:'capitalize'}}>{district}</span></div>
-          <div className='cart-close-btn '>
-            <button onClick={props.deleteTrackerHandle} className='deleteButton' >X</button>
-            
-            </div>
+          <div className='cart-close-btn '><button className='deleteButton' >X</button></div>
         </div>
         <div className='cart-subtitle px-3 mb-3'>Shell</div>
         <div className='cart-body mb-2 px-3'>
@@ -83,17 +64,18 @@ useEffect (() => {
               <b>Brand</b>
           </div>
           <div className='col-6 d-flex justify-content-between'>
-                <div className='liquid col-2'>
-                  <b>Gasoline</b>
-                </div>
-                <div className='liquid col-2'>
-                  <b>Diesel</b>
-                </div>
-                <div className='liquid col-2'>
-                  <b>LPG</b>
-                </div>
+            <div className='liquid col-2'>
+              <b>Gasoline</b>
+            </div>
+            <div className='liquid col-2'>
+              <b>Diesel</b>
+            </div>
+            <div className='liquid col-2'>
+              <b>LPG</b>
+            </div>
           </div>
         </div> 
+        
         {isLoading && <Loading />}      
           {prices.map((item,x) => (
               <div key={x} className='row px-3'>                
@@ -104,7 +86,6 @@ useEffect (() => {
                 <div className='col-6 d-flex justify-content-between'>
                       <div className='liquid text-center col-2'>
                         <div>
-
                           {money(item.benzin) || '-'}
                         </div>                  
                       </div>
@@ -115,13 +96,10 @@ useEffect (() => {
                         {money(item.lpg) || '-'}
                       </div>
                 </div>
-              </div> : null}
-              
+              </div> : null}              
             </div>
           ))}
-
-
-        
+      
         <div className='row '>
           <div className='cart-footer-wrapper'>
             <div className='cart-footer'>
@@ -159,10 +137,8 @@ useEffect (() => {
           </div>
         </div>
       </div>
-    </div>
-    
+    </div>    
   )
 }
-
 
 export default Card
